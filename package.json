@@ -1,0 +1,29 @@
+{
+  "name": "lamton",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm exec -w @lamton/shared -- tsc -p tsconfig.build.json && concurrently -n api,web -c blue,magenta \"npm exec -w @lamton/api -- tsx watch src/index.ts\" \"npm exec -w @lamton/web -- vite\"",
+    "build": "npm exec -w @lamton/shared -- tsc -p tsconfig.build.json && npm exec -w @lamton/api -- tsc -p tsconfig.build.json && npm exec -w @lamton/web -- tsc -p tsconfig.json --noEmit && npm exec -w @lamton/web -- vite build",
+    "typecheck": "npm exec -w @lamton/shared -- tsc -p tsconfig.build.json && npm exec -w @lamton/api -- tsc -p tsconfig.json --noEmit && npm exec -w @lamton/web -- tsc -p tsconfig.json --noEmit",
+    "lint": "eslint .",
+    "test": "npm exec -w @lamton/shared -- tsc -p tsconfig.build.json && npm exec -w @lamton/api -- vitest run && npm exec -w @lamton/web -- vitest run",
+    "provision:admin": "npm exec -w @lamton/api -- tsx src/scripts/provision-admin.ts"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "concurrently": "^9.2.1",
+    "eslint": "^9.39.1",
+    "globals": "^16.4.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.2"
+  }
+}
